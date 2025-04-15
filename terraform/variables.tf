@@ -28,3 +28,8 @@ variable "source_archive" {
   description = "Path to the ZIP file in GCS (e.g., dist/bot-source.zip)"
   type        = string
 }
+
+variable "GCS_BUCKET_NAME" {
+  description = "The name of the GCS bucket used to store the bot ZIP"
+  type        = string
+}

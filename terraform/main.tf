@@ -10,11 +10,11 @@ resource "google_storage_bucket_object" "bot_zip" {
 }
 
 resource "google_secret_manager_secret" "bot_token_secret" {
-  name    = "telegram-bot-token"
-  project = var.project_id
+  secret_id = "telegram-bot-token"
+  project   = var.project_id
 
   replication {
-    automatic = true
+    automatic {}
   }
 }
 
