@@ -1,63 +1,42 @@
-
 provider "google" {
   project = var.project_id
   region  = var.region
 }
 
-resource "google_storage_bucket" "bot_source_bucket" {
-  name     = "${var.project_id}-dirty-launderer-source"
-  location = var.region
-}
-
 resource "google_storage_bucket_object" "bot_zip" {
-  name   = "dirty-launderer-webhook.zip"
-  bucket = google_storage_bucket.bot_source_bucket.name
+  name   = "bot-source.zip"
+  bucket = var.GCS_BUCKET_NAME
   source = var.source_archive
 }
 
 resource "google_secret_manager_secret" "bot_token_secret" {
-  secret_id = "dirty-launderer-bot-token"
-  replication { automatic = true }
+  name    = "telegram-bot-token"
+  project = var.project_id
+
+  replication {
+    automatic = true
+  }
 }
 
 resource "google_secret_manager_secret_version" "bot_token_secret_version" {
   secret      = google_secret_manager_secret.bot_token_secret.id
-  secret_data = var.bot_token
+  secret_data = var.telegram_bot_token
 }
 
-resource "google_cloudfunctions2_function" "dirty_launderer_bot" {
-  name     = "dirty-launderer-bot"
-  location = var.region
+resource "google_cloudfunctions_function" "dirty_launderer_bot" {
+  name        = "dirty-launderer-bot"
+  description = "Telegram bot to clean URLs and proxy through privacy frontends"
+  runtime     = "python311"
+  project     = var.project_id
+  region      = var.region
 
-  build_config {
-    runtime     = "python311"
-    entry_point = "app"
-    source {
-      storage_source {
-        bucket = google_storage_bucket.bot_source_bucket.name
-        object = google_storage_bucket_object.bot_zip.name
-      }
-    }
+  source_archive_bucket = var.GCS_BUCKET_NAME
+  source_archive_object = google_storage_bucket_object.bot_zip.name
+  entry_point           = "main"
+  trigger_http          = true
+
+  environment_variables = {
+    TELEGRAM_TOKEN = var.telegram_bot_token
+    ADMIN_CHAT_ID  = var.admin_chat_id
   }
-
-  service_config {
-    environment_variables = {
-      TELEGRAM_TOKEN_SECRET = "dirty-launderer-bot-token"
-    }
-    secret_environment_variables {
-      key     = "TELEGRAM_TOKEN"
-      secret  = google_secret_manager_secret.bot_token_secret.id
-      version = "latest"
-    }
-    timeout_seconds = 60
-  }
-
-  event_trigger {
-    event_type     = "google.cloud.functions.v2.http.request"
-    trigger_region = var.region
-  }
-}
-
-output "webhook_url" {
-  value = "https://${google_cloudfunctions2_function.dirty_launderer_bot.name}-${var.region}-a.run.app"
 }
