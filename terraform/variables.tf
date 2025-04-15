@@ -23,3 +23,8 @@ variable "region" {
   type        = string
   default     = "us-central1"
 }
+
+variable "source_archive" {
+  description = "Path to the ZIP file in GCS (e.g., dist/bot-source.zip)"
+  type        = string
+}
