@@ -14,7 +14,11 @@ resource "google_secret_manager_secret" "bot_token_secret" {
   project   = var.project_id
 
   replication {
-    automatic {}
+    user_managed {
+      replicas {
+        location = var.region
+      }
+    }
   }
 }
 
