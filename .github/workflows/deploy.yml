@@ -22,15 +22,20 @@ jobs:
         mkdir -p dist
         cd bot && zip -r ../dist/bot-source.zip .
 
-    - name: Set up gcloud CLI
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v1
+      with:
+        credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+    - name: Set up gcloud
       uses: google-github-actions/setup-gcloud@v1
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
-        service_account_key: ${{ secrets.GCP_CREDENTIALS }}
-        export_default_credentials: true
 
     - name: Upload bot source to GCS
       run: gsutil cp dist/bot-source.zip gs://$GCS_BUCKET_NAME/
+      env:
+        GCS_BUCKET_NAME: ${{ secrets.GCS_BUCKET_NAME }}
 
     - name: Deploy Terraform
       working-directory: terraform
@@ -38,4 +43,5 @@ jobs:
         terraform init
         terraform apply -auto-approve \
           -var="telegram_bot_token=${{ secrets.TELEGRAM_BOT_TOKEN }}" \
-          -var="admin_chat_id=${{ secrets.ADMIN_CHAT_ID }}"
+          -var="admin_chat_id=${{ secrets.ADMIN_CHAT_ID }}" \
+          -var="project_id=${{ secrets.GCP_PROJECT_ID }}"
