@@ -51,4 +51,5 @@ jobs:
           -var="admin_chat_id=${{ secrets.ADMIN_CHAT_ID }}" \
           -var="project_id=${{ secrets.GCP_PROJECT_ID }}" \
           -var="billing_account_id=${{ secrets.BILLING_ACCOUNT_ID }}" \
-          -var="source_archive=dist/bot-source.zip"
+          -var="source_archive=dist/bot-source.zip" \
+          -var="GCS_BUCKET_NAME=${{ secrets.GCS_BUCKET_NAME }}"
