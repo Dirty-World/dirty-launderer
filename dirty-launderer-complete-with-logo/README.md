@@ -81,4 +81,4 @@ commands - Show a full list of bot commands
 
 ## 💬 Credits
 
-Made by [you], deployed serverlessly on GCP.
+Made by The Dirty Launderer, deployed serverlessly on GCP.
