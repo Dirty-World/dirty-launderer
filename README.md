@@ -5,6 +5,9 @@
 
 # Dirty Launderer 🧼
 
+![a3ca62e7-0fc7-4a3b-bfd7-a861dde5df88](https://github.com/user-attachments/assets/9ba31cb1-75c4-4198-9222-48476874cd87)
+
+
 💃 *A lady in the streets, and clean in the sheets… of tracking parameters.* 🧼
 
 A privacy-first Telegram bot that automatically cleans tracking parameters from URLs, and proxies uncleanable links using services like Invidious, Nitter, Libreddit, and more.
@@ -15,7 +18,8 @@ A privacy-first Telegram bot that automatically cleans tracking parameters from 
 - Supports proxying via privacy frontends
 - Fully admin-configurable via Telegram commands
 - PII-safe logging to Google Cloud Logging
-- Modular domain handler design
+- Modular domain handl!ae12-00dade79fa31)
+er design
 - Cloud Functions + Firestore + Terraform + GitHub Actions 
 
 ## 📦 Repo Structure
