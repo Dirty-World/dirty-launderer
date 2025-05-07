@@ -5,7 +5,8 @@
 
 # Dirty Launderer 🧼
 
-[a3ca62e7-0fc7-4a3b-bfd7-a861dde5df88](https://github.com/user-attachments/assets/52b6b9ea-6802-48ca-
+![a3ca62e7-0fc7-4a3b-bfd7-a861dde5df88](https://github.com/user-attachments/assets/9ba31cb1-75c4-4198-9222-48476874cd87)
+
 
 💃 *A lady in the streets, and clean in the sheets… of tracking parameters.* 🧼
 
